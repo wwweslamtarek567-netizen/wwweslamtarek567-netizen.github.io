@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>التقديم لوظيفة دليفري</title>
+  <style>
+    body {font-family:sans-serif; background:#f5f5f5; margin:0; padding:20px;}
+ .form-container {max-width:500px; margin:0 auto; background:white; padding:24px; border-radius:16px; box-shadow:0 2px 10px rgba(0,0,0,0.1);}
+ .logo {text-align:center; margin-bottom:20px;}
+ .logo img {max-width:180px; height:auto;}
+    h2 {text-align:center; color:#ff5a00; margin-bottom:20px;}
+    label {font-weight:bold; margin:12px 0 6px; display:block;}
+    input, select {width:100%; padding:14px; border:1px solid #ddd; border-radius:12px; font-size:16px; box-sizing:border-box;}
+ .upload-btn {width:100%; padding:14px; border:2px dashed #ff5a00; border-radius:12px; background:#fff7f2; color:#ff5a00; font-weight:bold; cursor:pointer; text-align:center; margin:8px 0;}
+ .upload-btn input {display:none;}
+ .file-name {font-size:13px; color:#666; margin:4px 0 12px;}
+ .note {font-size:12px; color:#e67e22; margin-bottom:16px;}
+ .submit-btn {width:100%; padding:16px; background:#ff5a00; color:white; border:none; border-radius:12px; font-size:18px; font-weight:bold; cursor:pointer; margin-top:10px;}
+ .back-link {text-align:center; margin-top:16px; color:#ff5a00; text-decoration:none; display:block;}
+  </style>
+</head>
+<body>
+
+<div class="form-container">
+  <div class="logo">
+    <img src="https://i.postimg.cc/7Z1GqX5J/talabat-old.png" alt="طلبات">
+  </div>
+
+  <h2>قدم طلبك الآن</h2>
+
+  <label>الاسم ثلاثي</label>
+  <input type="text" id="name" placeholder="اكتب اسمك">
+
+  <label>رقم الموبايل</label>
+  <input type="tel" id="phone" placeholder="01xxxxxxxxx">
+
+  <label>المحافظة / المنطقة</label>
+  <input type="text" id="area" placeholder="مثال: القاهرة - مدينة نصر">
+
+  <label>عندك وسيلة توصيل؟</label>
+  <select id="vehicle">
+    <option value="">اختر الإجابة</option>
+    <option value="موتوسيكل">موتوسيكل</option>
+    <option value="عجلة">عجلة</option>
+    <option value="لا يوجد">لا يوجد</option>
+  </select>
+
+  <label>💼 هل قمت بالعمل كمندوب في طلبات قبل ذلك؟</label>
+  <select id="worked_before">
+    <option value="">اختر الإجابة</option>
+    <option value="نعم">نعم</option>
+    <option value="لا">لا</option>
+  </select>
+
+  <label>🪪 صورة البطاقة (الوجه الأمامي)</label>
+  <label class="upload-btn">
+    اختر صورة الوجه الأمامي ☁️
+    <input type="file" id="id_front" accept="image/*" capture="environment" onchange="showFileName('front')">
+  </label>
+  <div class="file-name" id="front-name">لم يتم اختيار صورة</div>
+  <div class="note">⚠️ الكاميرا هتفتح تلقائي. بعد الإرسال ابعت الصورة يدوي في شات الواتساب</div>
+
+  <label>🪪 صورة البطاقة (الظهر الخلفي)</label>
+  <label class="upload-btn">
+    اختر صورة الظهر الخلفي ☁️
+    <input type="file" id="id_back" accept="image/*" capture="environment" onchange="showFileName('back')">
+  </label>
+  <div class="file-name" id="back-name">لم يتم اختيار صورة</div>
+  <div class="note">⚠️ الكاميرا هتفتح تلقائي. بعد الإرسال ابعت الصورة يدوي في شات الواتساب</div>
+
+  <button class="submit-btn" onclick="sendToWhatsApp()">
+    إرسال البيانات عبر واتساب 📱
+  </button>
+
+  <a href="https://wwweslamtarek567-netizen.github.io" class="back-link">› العودة للرئيسية</a>
+
+  <p style="font-size:12px; color:#777; text-align:center; margin-top:16px;">
+    جميع البيانات تصل إلى إدارة التوظيف عبر واتساب
+  </p>
+</div>
+
+<script>
+function showFileName(side) {
+  const input = document.getElementById(side === 'front'? 'id_front' : 'id_back');
+  const nameDiv = document.getElementById(side === 'front'? 'front-name' : 'back-name');
+  nameDiv.textContent = input.files.length > 0? input.files[0].name : 'لم يتم اختيار صورة';
+}
+
+function sendToWhatsApp() {
+  var name = document.getElementById("name").value;
+  var phone = document.getElementById("phone").value;
+  var area = document.getElementById("area").value;
+  var vehicle = document.getElementById("vehicle").value;
+  var worked = document.getElementById("worked_before").value;
+  var front = document.getElementById("id_front").files.length;
+  var back = document.getElementById("id_back").files.length;
+
+  if(!name ||!phone ||!area ||!vehicle ||!worked){
+    alert("من فضلك املى كل البيانات");
+    return;
+  }
+
+  if(front === 0 || back === 0){
+    alert("من فضلك صور البطاقة وش وضهر");
+    return;
+  }
+
+  var message = `طلب توظيف دليفري جديد%0A%0Aالاسم: ${name}%0Aرقم الموبايل: ${phone}%0Aالمنطقة: ${area}%0Aوسيلة التوصيل: ${vehicle}%0Aاشتغل في طلبات قبل كده: ${worked}%0A%0A*هبعتلك صور البطاقة دلوقتي*`;
+
+  var url = "https://wa.me/201040791442?text=" + message;
+  window.open(url, '_blank');
+
+  alert("هيفتح الواتساب دلوقتي. ابعت الصورتين اللي صورتهم في الشات 👌");
+}
+</script>
+
+</body>
+  </html>
